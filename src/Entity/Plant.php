@@ -28,6 +28,9 @@ class Plant
     #[ORM\ManyToOne(inversedBy: 'plants')]
     private ?Space $space = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $substrat = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +92,18 @@ class Plant
     public function setSpace(?Space $space): static
     {
         $this->space = $space;
+
+        return $this;
+    }
+
+    public function getSubstrat(): ?string
+    {
+        return $this->substrat;
+    }
+
+    public function setSubstrat(string $substrat): static
+    {
+        $this->substrat = $substrat;
 
         return $this;
     }
