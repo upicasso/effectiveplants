@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\NutritionProfile;
+use App\Entity\NutritionProfileElement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<NutritionProfile>
+ * @extends ServiceEntityRepository<NutritionProfileElement>
  */
-class NutrionProfileRepository extends ServiceEntityRepository
+class NutritionProfileElementRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, NutritionProfile::class);
+        parent::__construct($registry, NutritionProfileElement::class);
     }
 
     //    /**
-    //     * @return NutrionProfile[] Returns an array of NutrionProfile objects
+    //     * @return NutritionProfileElement[] Returns an array of NutritionProfileElement objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class NutrionProfileRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?NutrionProfile
+    //    public function findOneBySomeField($value): ?NutritionProfileElement
     //    {
     //        return $this->createQueryBuilder('n')
     //            ->andWhere('n.exampleField = :val')
