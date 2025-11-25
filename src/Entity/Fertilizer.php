@@ -2,29 +2,28 @@
 
 namespace App\Entity;
 
-use App\Repository\NutrionProfileRepository;
+use App\Repository\FertilizerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: NutrionProfileRepository::class)]
-class NutritionProfile
+#[ORM\Entity(repositoryClass: FertilizerRepository::class)]
+class Fertilizer
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?bool $name = null;
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
 
     /**
      * @var Collection<int, NutritionProfileElement>
      */
-    #[ORM\OneToMany(targetEntity: NutritionProfileElement::class, mappedBy: 'nutritionProfile')]
+    #[ORM\OneToMany(targetEntity: NutritionProfileElement::class, mappedBy: 'fertilizer')]
     private Collection $elements;
-
-
+    
     public function __construct()
     {
         $this->elements = new ArrayCollection();
@@ -35,12 +34,12 @@ class NutritionProfile
         return $this->id;
     }
 
-    public function isName(): ?bool
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(bool $name): static
+    public function setName(string $name): static
     {
         $this->name = $name;
 
@@ -59,7 +58,7 @@ class NutritionProfile
     {
         if (!$this->elements->contains($element)) {
             $this->elements->add($element);
-            $element->setNutritionProfile($this);
+            $element->setFertilizer($this);
         }
 
         return $this;
@@ -69,12 +68,11 @@ class NutritionProfile
     {
         if ($this->elements->removeElement($element)) {
             // set the owning side to null (unless already changed)
-            if ($element->getNutritionProfile() === $this) {
-                $element->setNutritionProfile(null);
+            if ($element->getFertilizer() === $this) {
+                $element->setFertilizer(null);
             }
         }
 
         return $this;
     }
-
 }

@@ -20,7 +20,9 @@ class NutritionProfileElement
     private ?int $mg = null;
 
     #[ORM\ManyToOne(inversedBy: 'elements')]
-    #[ORM\JoinColumn(nullable: false)]
+    private ?Fertilizer $fertilizer = null;
+
+    #[ORM\ManyToOne(inversedBy: 'elements')]
     private ?NutritionProfile $nutritionProfile = null;
 
     public function getId(): ?int
@@ -48,6 +50,18 @@ class NutritionProfileElement
     public function setMg(int $mg): static
     {
         $this->mg = $mg;
+
+        return $this;
+    }
+
+    public function getFertilizer(): ?Fertilizer
+    {
+        return $this->fertilizer;
+    }
+
+    public function setFertilizer(?Fertilizer $fertilizer): static
+    {
+        $this->fertilizer = $fertilizer;
 
         return $this;
     }
