@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
-use App\Entity\Interfaces\Element;
-use App\Repository\NutritionProfileElementRepository;
+use App\Repository\FertiilizerElementRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: NutritionProfileElementRepository::class)]
-class NutritionProfileElement implements Element
+#[ORM\Entity(repositoryClass: FertiilizerElementRepository::class)]
+class FertiilizerElement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,14 +19,20 @@ class NutritionProfileElement implements Element
     #[ORM\Column]
     private ?int $mg = null;
 
-    #[ORM\ManyToOne(inversedBy: 'nutritionProfileElements')]
+    #[ORM\ManyToOne(inversedBy: 'fertiilizerElements')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?NutritionProfile $nutritionProfile = null;
-
+    private ?Fertilizer $fertilizer = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -54,14 +59,14 @@ class NutritionProfileElement implements Element
         return $this;
     }
 
-    public function getNutritionProfile(): ?NutritionProfile
+    public function getFertilizer(): ?Fertilizer
     {
-        return $this->nutritionProfile;
+        return $this->fertilizer;
     }
 
-    public function setNutritionProfile(?NutritionProfile $nutritionProfile): static
+    public function setFertilizer(?Fertilizer $fertilizer): static
     {
-        $this->nutritionProfile = $nutritionProfile;
+        $this->fertilizer = $fertilizer;
 
         return $this;
     }

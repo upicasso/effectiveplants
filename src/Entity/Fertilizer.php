@@ -23,10 +23,17 @@ class Fertilizer
      */
     #[ORM\OneToMany(targetEntity: NutritionProfileElement::class, mappedBy: 'fertilizer')]
     private Collection $elements;
+
+    /**
+     * @var Collection<int, FertiilizerElement>
+     */
+    #[ORM\OneToMany(targetEntity: FertiilizerElement::class, mappedBy: 'fertilizer', orphanRemoval: true)]
+    private Collection $fertiilizerElements;
     
     public function __construct()
     {
         $this->elements = new ArrayCollection();
+        $this->fertiilizerElements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +77,36 @@ class Fertilizer
             // set the owning side to null (unless already changed)
             if ($element->getFertilizer() === $this) {
                 $element->setFertilizer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FertiilizerElement>
+     */
+    public function getFertiilizerElements(): Collection
+    {
+        return $this->fertiilizerElements;
+    }
+
+    public function addFertiilizerElement(FertiilizerElement $fertiilizerElement): static
+    {
+        if (!$this->fertiilizerElements->contains($fertiilizerElement)) {
+            $this->fertiilizerElements->add($fertiilizerElement);
+            $fertiilizerElement->setFertilizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFertiilizerElement(FertiilizerElement $fertiilizerElement): static
+    {
+        if ($this->fertiilizerElements->removeElement($fertiilizerElement)) {
+            // set the owning side to null (unless already changed)
+            if ($fertiilizerElement->getFertilizer() === $this) {
+                $fertiilizerElement->setFertilizer(null);
             }
         }
 
