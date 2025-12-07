@@ -24,10 +24,17 @@ class NutritionProfile
     #[ORM\OneToMany(targetEntity: NutritionProfileElement::class, mappedBy: 'nutritionProfile')]
     private Collection $elements;
 
+    /**
+     * @var Collection<int, NutritionProfileElement>
+     */
+    #[ORM\OneToMany(targetEntity: NutritionProfileElement::class, mappedBy: 'nutritionProfile', orphanRemoval: true)]
+    private Collection $nutritionProfileElements;
+
 
     public function __construct()
     {
         $this->elements = new ArrayCollection();
+        $this->nutritionProfileElements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,6 +78,36 @@ class NutritionProfile
             // set the owning side to null (unless already changed)
             if ($element->getNutritionProfile() === $this) {
                 $element->setNutritionProfile(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NutritionProfileElement>
+     */
+    public function getNutritionProfileElements(): Collection
+    {
+        return $this->nutritionProfileElements;
+    }
+
+    public function addNutritionProfileElement(NutritionProfileElement $nutritionProfileElement): static
+    {
+        if (!$this->nutritionProfileElements->contains($nutritionProfileElement)) {
+            $this->nutritionProfileElements->add($nutritionProfileElement);
+            $nutritionProfileElement->setNutritionProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNutritionProfileElement(NutritionProfileElement $nutritionProfileElement): static
+    {
+        if ($this->nutritionProfileElements->removeElement($nutritionProfileElement)) {
+            // set the owning side to null (unless already changed)
+            if ($nutritionProfileElement->getNutritionProfile() === $this) {
+                $nutritionProfileElement->setNutritionProfile(null);
             }
         }
 
